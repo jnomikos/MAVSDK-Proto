@@ -18,6 +18,9 @@ service CameraServerService {
     // Sets image capture in progress status flags. This should be set to true when the camera is busy taking a photo and false when it is done.
     rpc SetInProgress(SetInProgressRequest) returns(SetInProgressResponse) { option (mavsdk.options.async_type) = SYNC; }
 
+    // Set the camera capabilities. This can be called to add camera capabilities that are not automatically determined.
+    rpc SetCapabilities(SetCapabilitiesRequest) returns(SetCapabilitiesResponse) { option (mavsdk.options.async_type) = SYNC; }
+
     // Subscribe to image capture requests. Each request received should respond to using RespondTakePhoto.
     rpc SubscribeTakePhoto(SubscribeTakePhotoRequest) returns(stream TakePhotoResponse) { option (mavsdk.options.async_type) = ASYNC; }
 
@@ -149,6 +152,14 @@ message SetInProgressRequest {
 }
 
 message SetInProgressResponse {
+    CameraServerResult camera_server_result = 1;
+}
+
+message SetCapabilitiesRequest {
+    int32 capabilities = 1; // capability flags of the camera (CAMERA_CAP_FLAGS)
+}
+
+message SetCapabilitiesResponse {
     CameraServerResult camera_server_result = 1;
 }
 
