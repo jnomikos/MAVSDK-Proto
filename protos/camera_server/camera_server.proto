@@ -125,6 +125,12 @@ service CameraServerService {
 
     // Respond to an incoming tracking off command.
     rpc RespondTrackingOffCommand(RespondTrackingOffCommandRequest) returns(RespondTrackingOffCommandResponse) { option (mavsdk.options.async_type) = SYNC; }
+
+    // Set the camera's GPS position.
+    rpc SetPosition(SetPositionRequest) returns(SetPositionResponse) { option (mavsdk.options.async_type) = SYNC; }
+
+    // Set the camera's attitude quaternion.
+    rpc SetAttitudeQuaternion(SetAttitudeQuaternionRequest) returns(SetAttitudeQuaternionResponse) { option (mavsdk.options.async_type) = SYNC; }
 }
 
 
@@ -518,6 +524,20 @@ message RespondTrackingOffCommandRequest {
 }
 message RespondTrackingOffCommandResponse {
     CameraServerResult camera_server_result = 1; // The result of sending the response.
+}
+
+message SetPositionRequest {
+    Position position = 1; // The camera's current GPS position
+}
+message SetPositionResponse {
+    CameraServerResult camera_server_result = 1;
+}
+
+message SetAttitudeQuaternionRequest {
+    Quaternion attitude_quaternion = 1; // The camera's current attitude
+}
+message SetAttitudeQuaternionResponse {
+    CameraServerResult camera_server_result = 1;
 }
 
 // Point description type
