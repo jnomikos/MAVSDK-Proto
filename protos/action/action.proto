@@ -92,6 +92,19 @@ service ActionService {
      */
     rpc GotoLocation(GotoLocationRequest) returns(GotoLocationResponse) {}
     /*
+     * Send command to the drone to fly to a location for fixed-wing aircraft.
+     *
+     * This sends a MAV_CMD_DO_REPOSITION command with a loiter radius.
+     *
+     * The latitude and longitude are given in degrees (WGS84 frame) and the altitude
+     * in meters AMSL (above mean sea level).
+     *
+     * The loiter radius defines the radius of the loiter circle in meters, and its sign
+     * controls the direction: positive is clockwise, negative is counter-clockwise.
+     * A value of 0 is ignored by the autopilot.
+     */
+    rpc GotoLocationFixedwing(GotoLocationFixedwingRequest) returns(GotoLocationFixedwingResponse) {}
+    /*
      * Send command do orbit to the drone.
      *
      * This will run the orbit routine with the given parameters.
@@ -233,6 +246,16 @@ message GotoLocationResponse {
     ActionResult action_result = 1;
 }
 
+message GotoLocationFixedwingRequest {
+    double latitude_deg = 1; // Latitude (in degrees)
+    double longitude_deg = 2; // Longitude (in degrees)
+    float absolute_altitude_m = 3; // Altitude AMSL (in meters)
+    float loiter_radius_m = 4; // Loiter radius (in meters). Positive: clockwise, negative: counter-clockwise, 0: ignored.
+}
+message GotoLocationFixedwingResponse {
+    ActionResult action_result = 1;
+}
+
 // Yaw behaviour during orbit flight.
 enum OrbitYawBehavior {
     ORBIT_YAW_BEHAVIOR_HOLD_FRONT_TO_CIRCLE_CENTER = 0; // Vehicle front points to the center (default)
@@ -366,3 +389,4 @@ message ActionResult {
     Result result = 1; // Result enum value
     string result_str = 2; // Human-readable English string describing the result
 }
+
