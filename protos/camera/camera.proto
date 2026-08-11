@@ -161,6 +161,14 @@ service CameraService {
      */
     rpc TrackStop(TrackStopRequest) returns(TrackStopResponse) {}
     /*
+     * Step focus in.
+     */
+    rpc FocusInStep(FocusInStepRequest) returns(FocusInStepResponse) {}
+    /*
+     * Step focus out.
+     */
+    rpc FocusOutStep(FocusOutStepRequest) returns(FocusOutStepResponse) {}
+    /*
      * Start focusing in.
      */
     rpc FocusInStart(FocusInStartRequest) returns(FocusInStartResponse) {}
@@ -531,6 +539,20 @@ message TrackStopRequest {
     int32 component_id = 1; // Component ID
 }
 message TrackStopResponse {
+    CameraResult camera_result = 1;
+}
+
+message FocusInStepRequest {
+    int32 component_id = 1; // Component ID
+}
+message FocusInStepResponse {
+    CameraResult camera_result = 1;
+}
+
+message FocusOutStepRequest {
+    int32 component_id = 1; // Component ID
+}
+message FocusOutStepResponse {
     CameraResult camera_result = 1;
 }
 
